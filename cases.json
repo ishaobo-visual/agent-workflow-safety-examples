@@ -1,0 +1,100 @@
+{
+  "schema": "synthetic-workflow-safety-cases-v1",
+  "cases": [
+    {
+      "id": "B01",
+      "title": "暂停不会因进度查询而恢复",
+      "scenario": "原任务暂停；用户仅问完成情况。",
+      "expected": "保持暂停，传输次数为零；ACTIVE正向对照允许一次。",
+      "tests": [
+        "test_B01_paused_no_action",
+        "test_B01_active_positive_control"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    },
+    {
+      "id": "B02",
+      "title": "按业务身份分流",
+      "scenario": "报表标题包含视觉字样，但业务登记属于数据线。",
+      "expected": "按明确业务ID进入数据线，不按名称关键词猜测；未知ID拒绝。",
+      "tests": [
+        "test_B02_explicit_route_beats_name"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    },
+    {
+      "id": "B03",
+      "title": "未知结果不重放",
+      "scenario": "模拟保存超时，重建本地执行器后再次请求同一动作。",
+      "expected": "持久账本阻断重复动作，原传输累计仅一次。",
+      "tests": [
+        "test_B03_unknown_survives_restart",
+        "test_B03_returned_not_replayed"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    },
+    {
+      "id": "B04",
+      "title": "局部返修冻结其余部分",
+      "scenario": "三个合成文件已验收，只授权修改第二个。",
+      "expected": "只改第二个，其他SHA不变；扩大范围或冻结文件漂移均拒绝。",
+      "tests": [
+        "test_B04_only_selected_file_changes",
+        "test_B04_expanded_revision_rejected",
+        "test_B04_frozen_drift_detected_before_write"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    },
+    {
+      "id": "B05",
+      "title": "清理保护历史和配置",
+      "scenario": "合成历史、原图、已验收文件及假配置与缓存共存。",
+      "expected": "只隔离允许缓存；混入保护文件整批拒绝，保留项即使在cache内也拒绝。",
+      "tests": [
+        "test_B05_protected_mixed_plan_has_no_partial_move",
+        "test_B05_allowed_cache_move_preserves_protected_files",
+        "test_B05_traversal_rejected"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    },
+    {
+      "id": "B06",
+      "title": "读取回执绑定当前上下文",
+      "scenario": "已读回执来自另一个任务、执行者或规则版本。",
+      "expected": "任何一项不匹配都拒绝，三项匹配的正向对照通过。",
+      "tests": [
+        "test_B06_receipt_bound_to_context"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    },
+    {
+      "id": "B07",
+      "title": "禁用路线不自动恢复",
+      "scenario": "请求一个明确停用的旧业务入口。",
+      "expected": "拒绝请求，不运行旧链路。",
+      "tests": [
+        "test_B07_disabled_route_blocked"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    },
+    {
+      "id": "B08",
+      "title": "执行前再次核对状态",
+      "scenario": "首次检查后、传输前，任务暂停或版本变化。",
+      "expected": "第二次检查阻断，传输次数为零。",
+      "tests": [
+        "test_B08_pause_between_checks",
+        "test_B08_revision_change_between_checks"
+      ],
+      "evidence": "synthetic local assertions; no live platform",
+      "model_semantics": "NOT_EVALUATED"
+    }
+  ]
+}
