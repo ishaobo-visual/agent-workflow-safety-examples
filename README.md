@@ -35,3 +35,20 @@ Windows也可使用 `py -3 -B run_tests.py`。成功时退出码为0，打印测
 Copyright (c) 2026 shaoboooo。代码和随附原创文档以 MIT 许可提供，完整条款见 [LICENSE](LICENSE)。相关外部项目仍遵循各自许可，本包不包含其代码。
 
 本版本为 v0.1.0。正式发布状态与下载附件以仓库 Releases 页面为准。发布说明见 [CHANGELOG.md](CHANGELOG.md)，公开步骤见 [RELEASING.md](RELEASING.md)，贡献约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## 补充：视觉实践与原生应用派发
+
+核心8个跨平台合成案例及上述离线入口保持原样。另有两类补充：
+
+- [视觉制作实践](docs/visual-practice/README.md)：3篇匿名文字案例，覆盖面料真实感、局部返修和商业图质检；不是额外模型测评或可复现图像数据集。
+- [Native Dispatch Guard](examples/native-dispatch-guard/README.md)：Unix专用标准库示例，使用fcntl锁和完成凭据处理控制器超时后的未知结果。包含9项独立测试，其中一项启动本地子进程；不适用根运行器“禁止子进程”的模式，也不会被核心测试自动加载。Windows请继续运行核心8个案例。
+
+在macOS/Linux上单独验证派发示例：
+
+```sh
+cd examples/native-dispatch-guard
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. python3 -m unittest discover -s tests -v
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. python3 examples/simulate.py
+```
+
+两组测试均不调用生成服务；原生示例没有真实Photoshop/CAD集成。补充内容沿用根目录MIT许可和shaoboooo署名，公开发布状态仍以仓库提交与Releases为准。

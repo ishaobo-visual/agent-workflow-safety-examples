@@ -9,7 +9,9 @@ class SafetyCases(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(prefix='synthetic-safety-')
         self.addCleanup(self.tmp.cleanup)
-        self.root = Path(self.tmp.name)
+        # macOS exposes its temporary directory through a system path alias.
+        # Canonicalize only the fixture root; linked child paths remain blocked.
+        self.root = Path(self.tmp.name).resolve()
         self.state = {'status': 'ACTIVE', 'revision': 1}
         self.calls = []
         self.ledger = ActionLedger(self.root / 'actions.sqlite')
